@@ -1,10 +1,8 @@
 package com.nnk.springboot.domain;
 
-import org.hibernate.validator.constraints.Length;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 
