@@ -2,11 +2,9 @@ package com.nnk.springboot;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,17 +19,20 @@ public class BidTests {
 
 	@Test
 	public void bidListTest() {
-		BidList bid = new BidList("Account Test", "Type Test", 10d);
+		BidList bid = new BidList();
+		bid.setAccount("TestAccount");
+		bid.setType("TestType");
+		bid.setBidQuantity(10d); // valeur obligatoire et positive
 
 		// Save
 		bid = bidListRepository.save(bid);
 		assertNotNull(bid.getBidListId());
-		assertEquals(bid.getBidQuantity(), 10d, 10d);
+		assertEquals(10d, bid.getBidQuantity(), 0.001);
 
 		// Update
 		bid.setBidQuantity(20d);
 		bid = bidListRepository.save(bid);
-		assertEquals(bid.getBidQuantity(), 20d, 20d);
+		assertEquals(20d, bid.getBidQuantity(), 0.001);
 
 		// Find
 		List<BidList> listResult = bidListRepository.findAll();
