@@ -30,7 +30,6 @@ public class BidListController {
         var user = userInfos.getUserInfos();
         model.addAttribute("username", user.getUsername());
         model.addAttribute("bidLists", bidListService.findAll());
-        // TODO: call service find all bids to show to the view
         return "bidList/list";
     }
 
