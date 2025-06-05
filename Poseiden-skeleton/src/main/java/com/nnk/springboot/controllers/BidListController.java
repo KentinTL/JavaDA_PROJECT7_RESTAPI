@@ -51,7 +51,6 @@ public class BidListController {
 
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Bid by Id and to model then show to the form
         BidList bidList = bidListService.findById(id);
         if (bidList == null) {
             throw new IllegalArgumentException("BidList invalide : " + id);
@@ -75,7 +74,6 @@ public class BidListController {
 
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        // TODO: Find Bid by Id and delete the bid, return to Bid list
         try {
             bidListService.delete(id);
             redirectAttributes.addFlashAttribute("successMessage", "Bid successfully deleted");
