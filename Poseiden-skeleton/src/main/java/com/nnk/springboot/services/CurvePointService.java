@@ -13,26 +13,30 @@ public class CurvePointService {
     @Autowired
     CurvePointRepository curvePointRepository;
 
-    public CurvePoint save(BidList bid) {
+    public CurvePoint save(CurvePoint curvePoint) {
 
         CurvePoint newCurve = new CurvePoint();
-//        newCurve.setAccount(bid.getAccount());
-//        newCurve.setType(bid.getType());
-//        newCurve.setBidQuantity(bid.getBidQuantity());
+
+        newCurve.setCurveId(curvePoint.getCurveId());
+        newCurve.setTerm(curvePoint.getTerm());
+        newCurve.setValue(curvePoint.getValue());
+        newCurve.setCreationDate(curvePoint.getCreationDate());
+        newCurve.setAsOfDate(curvePoint.getAsOfDate());
 
         return curvePointRepository.save(newCurve);
     }
 
-    public CurvePoint update(Integer id, BidList bidList) {
+    public CurvePoint update(Integer id, CurvePoint newCurve) {
+        CurvePoint existing = curvePointRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No curve to update with id : " + id));
 
-        var updatedCurve = curvePointRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("No Bid to update with id : " + id));
+        existing.setCurveId(newCurve.getCurveId());
+        existing.setTerm(newCurve.getTerm());
+        existing.setValue(newCurve.getValue());
+        existing.setAsOfDate(newCurve.getAsOfDate());
+        existing.setCreationDate(newCurve.getCreationDate());
 
-//        updatedCurve.setAccount(bidList.getAccount());
-//        updatedCurve.setType(bidList.getType());
-//        updatedCurve.setBidQuantity(bidList.getBidQuantity());
-
-        return curvePointRepository.saveAndFlush(updatedCurve);
+        return curvePointRepository.save(existing);
     }
 
 
