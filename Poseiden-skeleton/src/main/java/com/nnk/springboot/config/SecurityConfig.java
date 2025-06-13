@@ -18,6 +18,15 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * Configure la chaîne de filtres de sécurité pour l'application.
+     * Autorise l'accès public aux pages de login et d'inscription,
+     * exige une authentification pour toute autre requête.
+     *
+     * @param http configuration HTTP
+     * @return la chaîne de filtres configurée
+     * @throws Exception en cas d'erreur de configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -41,6 +50,14 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Fournit un gestionnaire d'authentification basé sur un fournisseur DAO.
+     * Utilise un encodage BCrypt et un UserDetailsService personnalisé.
+     *
+     * @param userDetailsService service pour charger les utilisateurs
+     * @param passwordEncoder encodeur de mots de passe
+     * @return le gestionnaire d'authentification
+     */
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -50,7 +67,11 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
-
+    /**
+     * Fournit un encodeur de mot de passe utilisant l'algorithme BCrypt.
+     *
+     * @return un encodeur BCrypt
+     */
     @Bean
     PasswordEncoder passwordEncoder() {
      return new BCryptPasswordEncoder();

@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Contrôleur gérant les routes liées à l'authentification utilisateur.
+ * Utilisé pour afficher la page de login et les erreurs d'accès.
+ */
 @Controller
 @RequestMapping("app")
 public class LoginController {
@@ -14,6 +18,11 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Affiche la page de login.
+     *
+     * @return la vue "login"
+     */
     @GetMapping("login")
     public ModelAndView login() {
         ModelAndView mav = new ModelAndView();
@@ -21,6 +30,11 @@ public class LoginController {
         return mav;
     }
 
+    /**
+     * Affiche la liste des utilisateurs (accessible après connexion).
+     *
+     * @return la vue "user/list" avec les utilisateurs
+     */
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
         ModelAndView mav = new ModelAndView();
@@ -29,6 +43,11 @@ public class LoginController {
         return mav;
     }
 
+    /**
+     * Affiche une page d'erreur 403 personnalisée en cas d'accès non autorisé.
+     *
+     * @return la vue "403"
+     */
     @GetMapping("error")
     public ModelAndView error() {
         ModelAndView mav = new ModelAndView();

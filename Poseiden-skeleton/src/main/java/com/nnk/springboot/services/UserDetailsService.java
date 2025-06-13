@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service chargé de récupérer les détails de l'utilisateur pour Spring Security.
+ * Implémente {@link org.springframework.security.core.userdetails.UserDetailsService}.
+ */
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
@@ -20,6 +24,13 @@ public class UserDetailsService implements org.springframework.security.core.use
         this.userRepository = userRepository;
     }
 
+    /**
+     * Charge un utilisateur par son nom d'utilisateur (email dans ce cas).
+     *
+     * @param username le nom d'utilisateur (email)
+     * @return les détails de l'utilisateur pour Spring Security
+     * @throws UsernameNotFoundException si aucun utilisateur correspondant n'est trouvé
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("Tentative de chargement de l'utilisateur avec l'email: {}", username);
