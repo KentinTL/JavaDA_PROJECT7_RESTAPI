@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,6 @@ class UserControllerTest {
 
     @MockBean
     private UserService userService;
-
-    @MockBean
-    private PasswordEncoder passwordEncoder;
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
@@ -63,7 +59,6 @@ class UserControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("POST /user/validate with valid user should redirect to list")
     void testValidate_ValidUser_ShouldRedirectToList() throws Exception {
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userService.create(any(User.class))).thenReturn(new User());
 
         mockMvc.perform(post("/user/validate")
@@ -127,7 +122,6 @@ class UserControllerTest {
         existingUser.setId(1);
         when(userService.findById(1)).thenReturn(Optional.of(existingUser));
         doNothing().when(userService).update(eq(1), any(User.class));
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 
         mockMvc.perform(post("/user/update/1")
                         .with(csrf())

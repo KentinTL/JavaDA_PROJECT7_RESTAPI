@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
@@ -60,10 +59,10 @@ public class BidListController {
     }
 
     @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
+    public String updateBid(@PathVariable("id") Integer id, @Validated BidList bidList,
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            bidList.setBidListId(id); // Assure que l'ID est présent si nécessaire dans le formulaire
+            bidList.setBidListId(id);
             model.addAttribute("bidList", bidList);
             return "bidList/update";
         }

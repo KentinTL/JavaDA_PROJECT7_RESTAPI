@@ -1,6 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,7 @@ public class LoginController {
      *
      * @return la vue "403"
      */
-    @GetMapping("error")
+    @GetMapping("/403")
     public ModelAndView error() {
         ModelAndView mav = new ModelAndView();
         String errorMessage= "You are not authorized for the requested data.";

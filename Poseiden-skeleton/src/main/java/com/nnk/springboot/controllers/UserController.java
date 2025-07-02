@@ -3,8 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder; // Importez l'interface PasswordEncoder
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Contrôleur Spring MVC pour la gestion des utilisateurs.
@@ -20,16 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class UserController {
-    // Utilisez @Autowired pour les champs si vous n'avez qu'un seul constructeur par exemple
-    // Ou utilisez l'injection par constructeur pour toutes les dépendances, ce qui est préféré.
-    private final UserService userService;
-    private final PasswordEncoder passwordEncoder; // Déclarez l'interface PasswordEncoder
 
-    // Injection par constructeur (méthode préférée pour l'injection de dépendances)
-    // Spring Boot injectera automatiquement les instances de UserService et PasswordEncoder
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    private final UserService userService;
+
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder; // Initialisez PasswordEncoder
     }
 
     /**
@@ -88,8 +83,8 @@ public class UserController {
      */
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        User user = userService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        user.setPassword(""); // Effacer le mot de passe pour ne pas le réafficher dans le formulaire
+        User user = userService.findById(id).orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid user Id: " + id));
+        user.setPassword("");
         model.addAttribute("user", user);
         return "user/update";
     }

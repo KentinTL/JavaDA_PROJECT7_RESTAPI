@@ -3,7 +3,6 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -102,7 +101,7 @@ class UserServiceTest {
 
         when(userRepository.findAll()).thenReturn(users);
 
-        List<User> result = (List<User>) userService.findAll(); // Cast to List<User> for assertion
+        List<User> result = userService.findAll();
 
         assertThat(result).hasSize(2);
         assertThat(result).containsExactlyInAnyOrder(user1, user2);
