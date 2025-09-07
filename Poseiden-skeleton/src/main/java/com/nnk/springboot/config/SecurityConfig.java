@@ -32,7 +32,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/","/register", "user/list","/403", "/style/**", "/js/**").permitAll()
+                        .requestMatchers("/login", "/", "/register", "/403", "/style/**", "/js/**").permitAll()
+                        .requestMatchers("/user/list").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -47,6 +48,9 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
+                )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedPage("/403")
                 );
 
         return http.build();
@@ -57,7 +61,7 @@ public class SecurityConfig {
      * Utilise un encodage BCrypt et un UserDetailsService personnalisé.
      *
      * @param userDetailsService service pour charger les utilisateurs
-     * @param passwordEncoder encodeur de mots de passe
+     * @param passwordEncoder    encodeur de mots de passe
      * @return le gestionnaire d'authentification
      */
     @Bean
@@ -76,6 +80,6 @@ public class SecurityConfig {
      */
     @Bean
     PasswordEncoder passwordEncoder() {
-     return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 }
